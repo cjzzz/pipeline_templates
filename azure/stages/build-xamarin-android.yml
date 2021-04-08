@@ -50,19 +50,16 @@ parameters:
 - name: android_manifest_filename
   type: string
   default: ''
-# secure_file_keystore_filename - The keystore file used to sign the application. This is the name
+# secure_file_keystore_filename - (Required) The keystore file used to sign the application. This is the name
 # of the keystore in Secure Files
 - name: secure_file_keystore_filename
   type: string
-  default: ''
-# keystore_alias - The alias of the keystore. 
-- name: keystore_alias
-  type: string
-  default: ''
-# keystore_password - The password to access the keystore
+# keystore_password - (Required) The password to access the keystore
 - name: keystore_password
   type: string
-  default: ''
+# key_alias - (Required) The alias of the key.
+- name: key_alias
+  type: string
 
 # artifact_name - (Optional) The name of the artifact to copy application to
 - name: artifact_name
@@ -238,7 +235,12 @@ stages:
         configuration: '${{ parameters.solution_build_configuration }}'
         msbuildArgs: '/p:platform="${{ parameters.solution_target_platform }}" 
         /p:AndroidBuildApplicationPackage="true" 
-        /p:AndroidPackageFormat="$(packageFormat)" $(keystore_signing)' 
+        /p:AndroidPackageFormat="$(packageFormat)"
+        /p:AndroidKeyStore="True" 
+        /p:AndroidSigningKeyStore="$(signing_keystore.secureFilePath)"
+        /p:AndroidSigningKeyPass="${{ parameters.keystore_password }}" 
+        /p:AndroidSigningKeyAlias="${{ parameters.key_alias }}" 
+        /p:AndroidSigningStorePass="${{ parameters.keystore_password }}"' 
 
     # postBuild steps - performs steps immediately after executing the solution build
     - ${{ parameters.postBuild }}
