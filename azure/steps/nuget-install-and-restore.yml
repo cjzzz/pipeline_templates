@@ -6,6 +6,9 @@ parameters:
 # solution_filename - (Required) The relative path to the solution file that should be built
 - name: solution_filename
   type: string
+# vsts_feed - (Optional) Include the selected feed in the generated NuGet.config
+- name: vsts_feed
+  type: string
 # nuget_config_file - (Optional) Path to nuget.config file
 - name: nuget_config_file
   type: string
@@ -81,6 +84,7 @@ steps:
       ${{ if ne( parameters.nuget_config_file , '') }}:
         nugetConfigPath: '${{ parameters.nuget_config_file }}'
       restoreSolution: '${{ parameters.solution_filename }}'
+      vstsFeed: '${{ parameters.vsts_feed }}'
 
   - task: CopyFiles@2
     condition: and( succeeded(), and( eq(${{ parameters.nuget_cache_enabled }}, true), ne(variables.CACHE_RESTORED, true)))
