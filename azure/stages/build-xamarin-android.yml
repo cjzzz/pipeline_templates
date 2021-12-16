@@ -127,15 +127,6 @@ stages:
       value: ${{ parameters.android_manifest_filename }}
     - name: outputSearch
       value: ''
-    - name: keystore_signing    
-      ${{ if ne( parameters.secure_file_keystore_filename , '') }}:
-        value: '/p:AndroidKeyStore="True" 
-          /p:AndroidSigningKeyStore="$(signing_keystore.secureFilePath)"
-          /p:AndroidSigningKeyPass="${{ parameters.keystore_password }}" 
-          /p:AndroidSigningKeyAlias="${{ parameters.keystore_alias }}" 
-          /p:AndroidSigningStorePass="${{ parameters.keystore_password }}"'
-      ${{ else }}:
-        value: ''
 
   pool:
     vmImage: '${{ parameters.vm_image }}'
