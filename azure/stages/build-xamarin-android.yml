@@ -116,13 +116,7 @@ stages:
 - stage: ${{ parameters.stage_name }}
   dependsOn: ${{ parameters.depends_on }} 
   condition: and(succeeded(), ${{ parameters.build_enabled }})
-  variables: 
-    - name: ANDROID_NDK_HOME
-      value: C:\Microsoft\AndroidNDK64\android-ndk-r16b
-    - name: ANDROID_NDK_PATH
-      value: C:\Microsoft\AndroidNDK64\android-ndk-r16b
-    - name: AndroidNdkDirectory
-      value: C:\Microsoft\AndroidNDK64\android-ndk-r16b
+  variables:
     - name: manifestPath
       value: ${{ parameters.android_manifest_filename }}
     - name: outputSearch
